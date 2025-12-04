@@ -224,7 +224,7 @@ docker run --rm --detach --network macvlan0 --ip 192.168.0.202 --name pigpiod --
 #### Starting the container
 When starting the *Smart Appliance Enabler* in a new container named _sae_ the docker container needs to be assigned an IP address from the docker network `macvlan0`:
 ```console
-pi@raspberrypi:~ $ docker run -v sae:/opt/sae/data --network macvlan0 --ip 192.168.0.200 --publish 8080:8080 --privileged --name=sae avanux/smartapplianceenabler
+pi@raspberrypi:~ $ docker run -v sae:/opt/sae/data --network macvlan0 --ip 192.168.0.200 --publish 8080:8080 --name=sae avanux/smartapplianceenabler
 ```
 
 Properties can also be set via the Docker variable _JAVA_OPTS_:

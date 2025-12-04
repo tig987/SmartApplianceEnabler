@@ -273,7 +273,6 @@ $ docker run \
     --network macvlan0 \
     --ip 192.168.0.200 \
     --publish 8080:8080 \
-    --privileged \
     --name=sae \
     avanux/smartapplianceenabler
 ```
