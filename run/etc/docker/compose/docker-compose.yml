@@ -17,8 +17,7 @@ services:
     image: zinen2/alpine-pigpiod
     container_name: pigpiod
     networks:
-      macvlan0:
-        ipv4_address: 192.168.0.202
+     - internal
     devices:
       - /dev/gpiochip0
     privileged: true
@@ -32,6 +31,7 @@ services:
       # entfernen, falls pigpiod nicht verwendet wird oder der Smart Appliance Enabler nicht auf einem Raspberry Pi läuft
      - pigpiod
     networks:
+      internal: {}
       macvlan0:
         # diese IP-Adresse wird dem Container zugewiesen, in dem der Smart Appliance Enabler läuft
         # Die Adresse muss in dem Adressbereich liegen, der weiter unten durch "iprange" definiert ist
@@ -47,11 +47,13 @@ services:
       # Beispiel: JAVA_OPTS: '-Dserver.port=9000'
       # Bei Verwendung von pigpiod muss -DPIGPIOD_HOST auf die IP-Adresse oder den Container-Namen gesetzt sein, welche dem pigpiod-Container zugewiesen wurde
       JAVA_OPTS: '-DPIGPIOD_HOST=pigpiod'
-    privileged: true
 volumes:
   sae:
     name: sae
 networks:
+  internal:
+    driver: bridge
+    internal: true
   macvlan0:
     name: macvlan0
     driver: macvlan
@@ -65,8 +67,8 @@ networks:
         - subnet: 192.168.0.0/24
           # Teilnetz des Netzes, das in "subnet" definiert ist, dessen IP-Adressen für Docker container verwendet werden können
           # Dieser Adressbereich muss vom DHCP-Server ignoriert werden, d.h. er darf diese Adresse niemandem zusteilen!!
-          # Beispiel: ip_range: 192.168.0.192/27 für den Bereich von 192.168.0.193 bis 192.168.0.222 (IP Calculator: http://jodies.de/ipcalc)
-          ip_range: 192.168.0.192/27
+          # Beispiel: ip_range: 192.168.0.192/28 für den Bereich von 192.168.0.192 bis 192.168.0.207 (IP Calculator: http://jodies.de/ipcalc)
+          ip_range: 192.168.0.192/28
           # Ziel der Default-Route (meist die interne IP-Adresses des Internet-Routers).
           # Beispiel: gateway: 192.168.0.1
           gateway: 192.168.0.1
